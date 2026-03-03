@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/menuItem")
 public class MenuItemController {
@@ -21,7 +22,7 @@ public class MenuItemController {
     }
 
     @GetMapping
-    public List<MenuItem> getAll(){
+    public List<MenuItem> getAll() {
         List<MenuItem> menuItemList = menuItemService.getAll();
 
         return menuItemList;
@@ -29,14 +30,18 @@ public class MenuItemController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MenuItemResponse save(@RequestBody @Valid MenuItemRequest request){
+    public MenuItemResponse save(@RequestBody @Valid MenuItemRequest request) {
         return menuItemService.save(request);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable Long id) {
         menuItemService.deleteById(id);
     }
 
+    @PutMapping("/{id}")
+    public MenuItemResponse updateMenuItem(@PathVariable Long id, @RequestBody MenuItemRequest request) {
+        return this.menuItemService.update(id, request);
+    }
 
 }
